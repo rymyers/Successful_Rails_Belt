@@ -81,5 +81,5 @@ test:
 production:
   <<: *default
   database: belt_test_production
-  username: belt_test
+  username: ubuntu
   password: <%= ENV['BELT_TEST_DATABASE_PASSWORD'] %>
