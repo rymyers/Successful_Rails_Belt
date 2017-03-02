@@ -1,0 +1,33 @@
+<a href="/logout">Log Out</a>
+<a href="/groups">Dashboard</a><br><br>
+<h3><%= @group.name %></h3>
+<% if @isamember == 0 %>
+<form action="/join/<%=@group.id%>" method="post">
+    <input type="hidden" name="mem[user_id]" value=<%= @user.id %>>
+    <input type="hidden" name="mem[group_id]" value=<%= @group.id %>>
+    <input type="hidden" name="group_id" value=<%= @group.id %>>
+    <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+    <input type="submit" name="" value="Join Group">
+</form>
+<% else %>
+<form action="/leave/<%=@group.id%>" method="post">
+    <input type="hidden" name="user_id" value=<%= @user.id %>>
+    <input type="hidden" name="group_id" value=<%= @group.id %>>
+        <input type="hidden" name="group_id" value=<%= @group.id %>>
+    <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+    <input type="submit" name="" value="Leave Group">
+</form>
+<% end %>
+
+<br><br>
+<h4><%= @group.info %></h4>
+<h4>Created By: <%
+    if @user.first_name + " " + @user.last_name == @group.owner %>
+    <%= "You" %>
+    <% else %>
+    <%= @group.owner %>
+    <% end %></h4>
+<h4>Members:</h4>
+<% @members.each do |m| %>
+<h3><%= m.user.first_name %> <%= m.user.last_name %></h3>
+<% end %>

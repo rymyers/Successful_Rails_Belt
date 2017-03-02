@@ -1,0 +1,25 @@
+<a href="/logout">Log Out</a>
+<h3>Hi <%= @user.first_name %><%= @user.last_name %></h3>
+<h3>Here are the organizations you may join:</h3>
+<% if flash[:errors] %>
+    <% flash[:errors].each do |e| %>
+    <p><%= e %></p>
+    <% end %>
+<% end %>
+<form action="/groups/new" method="post">
+    Create a new organiation: <br><br>
+    Org Name: <br><br><input type="text" name="group[name]" value=""><br><br>
+    Description: <br><br><input type="text" name="group[info]" value=""><br><br>
+    <input type="hidden" name="group[owner]" value="<%=@user.first_name%> <%=@user.last_name%>">
+    <input type="hidden" name="group[members]" value=1>
+    <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+    <input type="submit" name="" value="Create">
+</form><br><br>
+<% @groups.each do |g| %>
+<% if @user.first_name + " " + @user.last_name == g.owner %>
+    <a href="/delete/<%= g.id %>">X</a>
+ <% end %><a href="/groups/<%= g.id %>"><%= g.name %></a>
+<h4>Members: <%= g.members %></h4>
+<h4><%= g.info %></h4>
+<br>
+<% end %>
